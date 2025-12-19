@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 // 命令处理函数类型（与 hdlc_core 共享）
-typedef void (*cmd_handler_t)(const uint8_t* payload, uint16_t payload_len);
+typedef int (*cmd_handler_t)(const uint8_t* payload, uint16_t payload_len);
 
 // 声明各个命令处理函数（供 hdlc_core.c 使用）
 
@@ -13,69 +13,69 @@ typedef void (*cmd_handler_t)(const uint8_t* payload, uint16_t payload_len);
  * @param payload: 命令负载指针
  * @param len: 负载长度（字节）
  */
-void handle_flash_read(const uint8_t* payload, uint16_t len);
+int handle_flash_read(const uint8_t* payload, uint16_t len);
 
 /**
  * @brief 处理 FLASH 写入命令
  * @param payload: 命令负载指针
  * @param len: 负载长度（字节）
  */
-void handle_flash_write(const uint8_t* payload, uint16_t len);
+int handle_flash_write(const uint8_t* payload, uint16_t len);
 
 /**
  * @brief 处理 FLASH 扇区擦除命令
  * @param payload: 命令负载指针
  * @param len: 负载长度（字节）
  */
-void handle_flash_SectionErase(const uint8_t *payload, uint16_t len);
+int handle_flash_SectionErase(const uint8_t *payload, uint16_t len);
 
 /**
  * @brief 处理 FLASH 块擦除命令(32K)
  * @param payload: 命令负载指针
  * @param len: 负载长度（字节）
  */
-void handle_flash_BlockErase32(const uint8_t *payload, uint16_t len);
+int handle_flash_BlockErase32(const uint8_t *payload, uint16_t len);
 
 /**
  * @brief 处理 FLASH 块擦除命令(64K)
  * @param payload: 命令负载指针
  * @param len: 负载长度（字节）
  */
-void handle_flash_BlockErase64(const uint8_t *payload, uint16_t len);
+int handle_flash_BlockErase64(const uint8_t *payload, uint16_t len);
 
 /**
  * @brief 处理 FLASH 芯片擦除命令
  * @param payload: 命令负载指针
  * @param len: 负载长度（字节）
  */
-void handle_flash_ChipErase(const uint8_t *payload, uint16_t len);
+int handle_flash_ChipErase(const uint8_t *payload, uint16_t len);
 
 /**
  * @brief 处理 I2C 读取寄存器命令
  * @param payload: 命令负载指针
  * @param len: 负载长度（字节）
  */
-void handle_i2c_read_reg(const uint8_t* payload, uint16_t len);
+int handle_i2c_read_reg(const uint8_t* payload, uint16_t len);
 
 /**
  * @brief 处理 I2C 读取16位寄存器命令
  * @param payload: 命令负载指针
  * @param len: 负载长度（字节）
  */
-void handle_i2c_read_reg_16(const uint8_t *payload, uint16_t len);
+int handle_i2c_read_reg_16(const uint8_t *payload, uint16_t len);
 /**
  * @brief 处理 I2C 写入寄存器命令
  * @param payload: 命令负载指针
  * @param len: 负载长度（字节）
  */
-void handle_i2c_write_reg(const uint8_t* payload, uint16_t len);
+int handle_i2c_write_reg(const uint8_t* payload, uint16_t len);
 
 /**
  * @brief 处理 I2C 读取16位寄存器命令
  * @param payload: 命令负载指针
  * @param len: 负载长度（字节）
  */
-void handle_i2c_write_reg_16(const uint8_t *payload, uint16_t len);
+int handle_i2c_write_reg_16(const uint8_t *payload, uint16_t len);
 
 /**
  * @brief I2C读多个数据
@@ -127,12 +127,12 @@ int handle_i2c_address_find(const uint8_t *payload, uint16_t len);
  * @param payload: 命令负载指针
  * @param len: 负载长度（字节）
  */
-void handle_spi_read_reg(const uint8_t* payload, uint16_t len);
+int handle_spi_read_reg(const uint8_t* payload, uint16_t len);
 /**
  * @brief 处理 SPI 写入寄存器命令
  * @param payload: 命令负载指针
  * @param len: 负载长度（字节）
  */
-void handle_spi_write_reg(const uint8_t* payload, uint16_t len);
+int handle_spi_write_reg(const uint8_t* payload, uint16_t len);
 
 #endif // CMD_HANDLERS_H

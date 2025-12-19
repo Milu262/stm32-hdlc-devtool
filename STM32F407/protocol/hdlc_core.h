@@ -44,7 +44,7 @@
 #define CMD_SPI_WRITE_ACK       0x0304
 
 // 命令处理函数原型
-typedef void (*cmd_handler_t)(const uint8_t* payload, uint16_t payload_len);
+typedef int (*cmd_handler_t)(const uint8_t* payload, uint16_t payload_len);
 
 
 // ====== 【主入口函数】======

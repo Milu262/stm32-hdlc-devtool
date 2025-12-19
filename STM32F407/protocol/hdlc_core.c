@@ -15,6 +15,7 @@ typedef struct
     uint16_t cmd_id;
     cmd_handler_t handler;
     uint16_t expected_min_len; // 可选：用于快速校验
+    uint16_t cmd_ack;
 } cmd_entry_t;
 
 static const cmd_entry_t cmd_table[] = {
