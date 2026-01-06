@@ -39,7 +39,7 @@
 
 typedef enum {
   RX_STATE_IDLE = 0,      // 接收状态为空闲
-  RX_STATE_RECEIVING = 1, // 接收状态为已接收
+  RX_STATE_RECEIVING = 1, // 接收状态为已接收,由串口中断来改变状态
   RX_STATE_OVERFLOW = 2   // 接收状态为溢出
 } RxState;                // 接收状态
 

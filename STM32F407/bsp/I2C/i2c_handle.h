@@ -128,4 +128,11 @@ uint8_t I2C_EE_8Addr_PageWrite(uint8_t EEPROM_ADDRESS, uint8_t WriteAddr, uint8_
  */
 uint8_t I2C_EE_16Addr_PageWrite(uint8_t EEPROM_ADDRESS, uint16_t WriteAddr, uint8_t *Data, uint8_t NumByteToWrite);
 
+/**
+ *  @brief  查找I2C总线上的设备
+ *  @param  slave_adress: 设备地址
+ *  @retval 0: 设备存在; -1: 设备不存在
+ */
+int i2c_device_adress_find(uint8_t slave_adress);
+
 #endif

@@ -15,43 +15,16 @@ int main(void)
 {
 
 	uint8_t error = 0;
-	// uint16_t color = 0;
 	error = hardware_init();
 
 	while (1)
 	{
 
-		// if (test_data.flag != 1)
-		// {
-		// 	continue;
-		// }
-		// if (test_data.DataOverflow == 1)
-		// {
-		// 	printf("Recive Data Too Much!\r\n");
-		// 	test_data.DataOverflow = 0; // 清空数据溢出标志位
-		// 	test_data.flag = 0;			// 清空接收标志位
-		// 	break;
-		// }
-
 		if (get_rx_status() != RX_STATE_RECEIVING)
 			continue;
 		enter_rx_IDLE();
 		RxCount = GetUsartRxCount();
-
-		// response_handle(RxCount);
 		uart_copy_receive_data(ReceiveData, RxCount);
-		// usart_send_String_DMA(ReceiveData,RxCount);//接收正常
 		hdlc_process_stream(ReceiveData, RxCount);
-
-		// usart_copy_String_DMA(test_data.data, RxCount);
-		// test_data.data[RxCount] = '\0';
-		// usart_copy_String_DMA(test_data.data, usart1_rx_len);
-		// test_data.data[usart1_rx_len] = '\0';
-		// error = do_process(&test_data);
-		// if (!error)
-		// {
-		// 	printf("Do process Error!\r\n");
-		// 	error = 0;
-		// }
 	}
 }

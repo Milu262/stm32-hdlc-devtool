@@ -621,7 +621,7 @@ uint32_t I2C_BufferRead_16addr(uint8_t slave_adress, uint16_t ReadAddr, uint8_t 
     return 1;
 }
 
-static uint8_t i2c_device_adress_find(uint8_t slave_adress)
+int i2c_device_adress_find(uint8_t slave_adress)
 {
     uint32_t I2CTimeout;
     /* 产生 I2C 起始信号 */
@@ -644,11 +644,11 @@ static uint8_t i2c_device_adress_find(uint8_t slave_adress)
         if ((I2CTimeout--) == 0)
         {
             I2C_GenerateSTOP(I2C1, ENABLE);
-            return 0;
+            return -1;
         }
     }
     I2C_GenerateSTOP(I2C1, ENABLE);
-    return 1;
+    return 0;
 }
 
 void Find_i2c_device(void)

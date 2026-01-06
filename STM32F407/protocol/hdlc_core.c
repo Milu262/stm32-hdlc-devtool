@@ -303,9 +303,7 @@ void hdlc_process_stream(const uint8_t *data, uint16_t len)
             if (hdlc_in_frame)
             {
                 hdlc_handle_frame_end(); // 处理完整帧
-
                 // 解包数据正常
-                //  usart_send_String_DMA(hdlc_frame_buf,hdlc_frame_index);//测试数据
                 hdlc_in_frame = 0;
                 return;
             }

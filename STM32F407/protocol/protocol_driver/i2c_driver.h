@@ -38,5 +38,10 @@ int i2c_write_reg(uint8_t dev_addr, uint8_t reg_addr, uint8_t value);
  */
 int i2c_write_reg_16(uint8_t dev_addr, uint16_t reg_addr, uint8_t value);
 
-
+/**
+ * @brief I2C 地址查找
+ * @param dev_addr_list 设备地址列表
+ * @return i2c地址个数，-1 失败
+ */
+int i2c_address_find(uint8_t *dev_addr_list);
 #endif

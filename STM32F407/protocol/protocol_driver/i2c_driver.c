@@ -24,7 +24,7 @@ int i2c_read_reg_16(uint8_t dev_addr, uint16_t reg_addr, uint8_t *value)
         return -1; // 无效指针
     }
     uint32_t result = I2C_Read16addr(dev_addr, reg_addr, value);
-        // 注意：I2C_byteRead 成功返回 1，失败返回 0
+    // 注意：I2C_byteRead 成功返回 1，失败返回 0
     return (result == 1) ? 0 : -1;
 }
 
@@ -41,4 +41,23 @@ int i2c_write_reg_16(uint8_t dev_addr, uint16_t reg_addr, uint8_t value)
 
     // I2C_ByteWrite 成功返回 1 → 我们返回 0
     return (result == 1) ? 0 : -1;
+}
+
+int i2c_address_find(uint8_t *dev_addr_list)
+{
+    if (dev_addr_list == NULL)
+    {
+        return -1; // 无效指针
+    }
+    uint8_t i2c_device_num = 0;
+
+    for (uint8_t i = 0x01; i < 0x80; i++)
+    {
+        if (!(i2c_device_adress_find(i << 1)))
+        {
+            dev_addr_list[i2c_device_num] = (i<<1);
+            i2c_device_num++;
+        }
+    }
+    return i2c_device_num;
 }

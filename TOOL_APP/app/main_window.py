@@ -38,6 +38,7 @@ class FlashToolApp:
         self.notebook.pack(fill='both', expand=True, padx=5, pady=5)
 
         # Tab 1: Flash Programming
+        
         self.flash_tab = ttk.Frame(self.notebook)
         self.notebook.add(self.flash_tab, text="Flash")
 
@@ -91,34 +92,37 @@ class FlashToolApp:
         i2c_frame.pack(pady=10, padx=10, fill='x')
 
         #创建I2C设备地址的框
-        ttk.Label(i2c_frame, text="Device Addr (0x):").grid(row=0, column=0, sticky='w')
+        ttk.Label(i2c_frame, text="Device Addr(0x):").grid(row=0, column=0, sticky='w')
         self.i2c_addr = tk.StringVar(value="A0")
         ttk.Entry(i2c_frame, textvariable=self.i2c_addr, width=5).grid(row=0, column=1, padx=(0, 1)) # 左边5，右边1
 
         #创建I2C寄存器地址的框
-        ttk.Label(i2c_frame, text="Reg Addr (0x):").grid(row=0, column=2, sticky='w')
+        ttk.Label(i2c_frame, text="Reg Addr(0x):").grid(row=0, column=2, sticky='w')
         self.i2c_reg = tk.StringVar(value="00")
         ttk.Entry(i2c_frame, textvariable=self.i2c_reg, width=6).grid(row=0, column=3, padx=(0, 1)) # 左边5，右边1
 
         #创建I2C写数据的框
-        ttk.Label(i2c_frame, text="Write Data (0x):").grid(row=0, column=4, sticky='w')
+        ttk.Label(i2c_frame, text="Write Data(0x):").grid(row=0, column=4, sticky='w')
         self.i2c_write_data = tk.StringVar(value="00")
         ttk.Entry(i2c_frame, textvariable=self.i2c_write_data, width=6).grid(row=0, column=5, padx=5)
         #创建I2C读取按钮的框
         # self.i2c_read_btn = ttk.Button(i2c_frame, text="Read", command=self.i2c_read, state='disabled')
         self.i2c_read_btn = ttk.Button(i2c_frame, text="Read", command=lambda: i2c_handler.i2c_read(self), state='disabled')
-        self.i2c_read_btn.grid(row=0, column=6, padx=5)
+        self.i2c_read_btn.grid(row=0, column=6, padx=4)
 
         #创建I2C写按钮的框
         # self.i2c_write_btn = ttk.Button(i2c_frame, text="Write", command=self.i2c_write, state='disabled')
         self.i2c_write_btn = ttk.Button(i2c_frame, text="Write", command=lambda: i2c_handler.i2c_write(self), state='disabled')
-        self.i2c_write_btn.grid(row=0, column=7, padx=5)
+        self.i2c_write_btn.grid(row=0, column=7, padx=4)
 
         #创建I2C 8位或是16位寄存器地址选择
         self.i2c_addr_size = tk.StringVar(value="8")
         ttk.Radiobutton(i2c_frame, text="8-bit", variable=self.i2c_addr_size, value="8").grid(row=0, column=8, sticky='w')
         ttk.Radiobutton(i2c_frame, text="16-bit", variable=self.i2c_addr_size, value="16").grid(row=0, column=9, sticky='w')
 
+        #创建搜索I2C设备地址的按钮
+        self.i2c_find_btn = ttk.Button(i2c_frame, text="I2C Device Find", command=lambda: i2c_handler.i2c_find(self), state='disabled')
+        self.i2c_find_btn.grid(row=0, column=11, padx=5)
         # self.i2c_result = tk.StringVar()
         # ttk.Label(i2c_frame, textvariable=self.i2c_result, foreground='blue').grid(row=0, column=8, padx=5)
 
@@ -225,6 +229,7 @@ class FlashToolApp:
         self.i2c_write_btn.config(state='normal')
         self.open_btn.config(state='disabled')
         self.close_btn.config(state='normal')
+        self.i2c_find_btn.config(state='normal')
 
     def _disable_buttons(self):
         self.send_btn.config(state='disabled')
@@ -236,6 +241,7 @@ class FlashToolApp:
         self.i2c_write_btn.config(state='disabled')
         self.open_btn.config(state='normal')
         self.close_btn.config(state='disabled')
+        self.i2c_find_btn.config(state='disabled')
 
     # 修改 browse_file 方法以支持目标变量参数
     def browse_file(self, target_var=None):

@@ -85,3 +85,40 @@ def _on_i2c_write_complete(app_instance: "FlashToolApp", resp, dev_addr, reg_add
         app_instance._log_to_queue(f"I2C Write OK: Dev=0x{dev_addr:02X}, Reg=0x{reg_addr:02X}, Data=0x{write_data:02X}")
     else:
         app_instance._log_to_queue(f"I2C Write Failed: Dev=0x{dev_addr:02X}, Reg=0x{reg_addr:02X}, Data=0x{write_data:02X}")
+
+def i2c_find(app_instance: "FlashToolApp"):
+    # 禁用按钮防止重复点击
+    app_instance.i2c_read_btn.config(state='disabled')
+    # 启动后台线程
+    threading.Thread(target=_i2c_find_worker, args=(app_instance,), daemon=True).start()
+
+def _i2c_find_worker(app_instance:"FlashToolApp"):
+    payload  = b''
+    resp = app_instance.send_with_retry(
+        CMD.CMD_I2C_ADDRESS_FIND,
+        payload,
+        expected_response_cmd=CMD.CMD_I2C_ADDRESS_FIND_ACK
+    )
+    # 回到主线程更新 UI
+    app_instance.root.after(0, _on_i2c_find_complete,app_instance,resp)
+
+def _on_i2c_find_complete(app_instance: "FlashToolApp", resp):
+    app_instance.i2c_read_btn.config(state='normal')  # 恢复按钮
+    if resp is not None and len(resp) >= 1:
+        # 解析响应数据以获取实际的I2C地址
+        # 假设响应数据格式为 [地址1, 地址2, ...] 或类似的格式
+        found_addresses = []
+        for byte_val in resp:
+            # 将字节值转换为十六进制格式的I2C地址
+            i2c_addr = f"0x{byte_val:02X}"
+            found_addresses.append(i2c_addr)
+        
+        if found_addresses:
+            addresses_str = ", ".join(found_addresses)
+            # 弹出窗口提示I2C读取成功,并且输出找到的I2C地址
+            messagebox.showinfo("I2C Address Find", f"I2C Addresses Found: {addresses_str}")
+        else:
+            messagebox.showinfo("I2C Address Find", "No I2C addresses found")
+    else:
+        # 弹出窗口提示I2C读取超时
+        messagebox.showerror("Error", f"I2C Address Find Timeout")

@@ -10,9 +10,8 @@ void uart1_init(uint32_t __Baud)
 	USART_DeInit(BSP_USART); // 复位串口
 	GPIO_InitTypeDef GPIO_InitStructure;
 
-
 	// RCC_APB2PeriphClockCmd(BSP_USART_RCC, ENABLE);//串口1
-	RCC_APB1PeriphClockCmd(BSP_USART_RCC, ENABLE);//串口2
+	RCC_APB1PeriphClockCmd(BSP_USART_RCC, ENABLE); // 串口2
 
 	RCC_AHB1PeriphClockCmd(BSP_USART_TX_RCC, ENABLE);
 	RCC_AHB1PeriphClockCmd(BSP_USART_RX_RCC, ENABLE);
@@ -36,9 +35,7 @@ void uart1_init(uint32_t __Baud)
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
 	GPIO_Init(BSP_USART_RX_PORT, &GPIO_InitStructure);
 
-
 	USART_InitTypeDef USART_InitStructure;
-
 
 	// USART_DeInit(BSP_USART);
 	// USART_StructInit(&USART_InitStructure);
@@ -76,7 +73,13 @@ void usart_send_String(uint8_t *ucstr)
 		usart_send_data(*ucstr++);
 	}
 }
+#ifdef USE_GCC
+// 使用GCC编译器时，需要使用以下函数
 
+#endif
+
+#ifdef USE_Keil
+// 使用Keil编译器时，需要使用以下函数
 #if !defined(__MICROLIB)
 
 #if (__ARMCLIB_VERSION <= 6000000)
@@ -98,21 +101,6 @@ void _sys_exit(int x)
 /* retarget the C library printf function to the USART */
 int fputc(int ch, FILE *f)
 {
-	// USART_SendData(BSP_USART, (uint8_t)ch);
-
-	// while (RESET == USART_GetFlagStatus(BSP_USART, USART_FLAG_TXE))
-	// {
-	// }
-
-	// 以下为使用DMA传输
-	// DMA_USART1_TX_BUF[0] = (uint8_t)ch;
-	// while (DMA_GetCmdStatus(DEBUG_USART_TX_DMA_STREAM) != DISABLE) // 当DMA的命令为DISABLE时，跳出循环
-	// 	;															// 等待DMA可以被设置
-	// 																// 设置DMA传输模式
-
-	// DMA_SetCurrDataCounter(DEBUG_USART_TX_DMA_STREAM, 1); // 设置当前DMA的传输数据量
-
-	// DMA_Cmd(DEBUG_USART_TX_DMA_STREAM, ENABLE); // 使能DMA传输
 
 	usart_send_String_DMA((uint8_t *)&ch, 1); // 使用DMA发送单个字符
 
@@ -127,20 +115,25 @@ int fgetc(FILE *f)
 
 	return (int)USART_ReceiveData(BSP_USART);
 }
+#endif
 
-static volatile RxState _RxStatus = RX_STATE_IDLE;
+static volatile RxState _RxStatus = RX_STATE_IDLE;//定义接收状态
 
-void enter_rx_Receive(void) {
-  _RxStatus = RX_STATE_RECEIVING;
+void enter_rx_Receive(void)
+{
+	_RxStatus = RX_STATE_RECEIVING;
 }
 
-void enter_rx_IDLE(void) {
-  _RxStatus = RX_STATE_IDLE;
+void enter_rx_IDLE(void)
+{
+	_RxStatus = RX_STATE_IDLE;
 }
 
-void enter_rx_Overflow(void) {
-  _RxStatus = RX_STATE_OVERFLOW;
+void enter_rx_Overflow(void)
+{
+	_RxStatus = RX_STATE_OVERFLOW;
 }
-RxState get_rx_status(void) {
-  return _RxStatus;
+RxState get_rx_status(void)
+{
+	return _RxStatus;
 }

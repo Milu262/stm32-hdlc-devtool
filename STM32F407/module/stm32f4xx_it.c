@@ -198,19 +198,14 @@ void USART2_IRQHandler(void)
   }
   // 触发空闲中断
   enter_rx_Receive();
-  test_data.flag = 1;                                                                // 接收完成标志
-  DMA_Cmd(DEBUG_USART_RX_DMA_STREAM, DISABLE);                                       // 暂时关闭接收串口的DMA，数据待处理
-  // usart1_rx_len = USART_MAX_LEN - DMA_GetCurrDataCounter(DEBUG_USART_RX_DMA_STREAM); // 计算接收到的数据长度
+  test_data.flag = 1;                          // 接收完成标志
+  DMA_Cmd(DEBUG_USART_RX_DMA_STREAM, DISABLE); // 暂时关闭接收串口的DMA，数据待处理
   uint16_t RxCount = USART_MAX_LEN - DMA_GetCurrDataCounter(DEBUG_USART_RX_DMA_STREAM);
   SetUsartRxCount(RxCount);
-  DMA_ClearFlag(DEBUG_USART_RX_DMA_STREAM, DMA_FLAG_TCIF5);                          // 清除接收完成标志
-  // 做自己的事,例如将接收到的数据回显
-  // usart_send_String_DMA(DMA_USART1_RX_BUF, usart1_rx_len); // 回显
-  // if (usart1_rx_len > data_size - 2)
+  DMA_ClearFlag(DEBUG_USART_RX_DMA_STREAM, DMA_FLAG_TCIF5); // 清除接收完成标志
   if (RxCount > USART_MAX_LEN)
   {
     enter_rx_Overflow();
-    // test_data.DataOverflow = 1; // 接收数据溢出
   }
 
   DMA_SetCurrDataCounter(DEBUG_USART_RX_DMA_STREAM, USART_MAX_LEN); // 重新设置DMA的缓冲区大小
@@ -236,7 +231,7 @@ void USART2_IRQHandler(void)
 
 void DMA1_Stream6_IRQHandler(void)
 {
-  if (DMA_GetITStatus(DEBUG_USART_TX_DMA_STREAM, DMA_IT_TCIF6) == RESET) 
+  if (DMA_GetITStatus(DEBUG_USART_TX_DMA_STREAM, DMA_IT_TCIF6) == RESET)
   {
     return;
   }
