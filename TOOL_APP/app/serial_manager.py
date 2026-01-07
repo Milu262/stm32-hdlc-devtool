@@ -167,8 +167,8 @@ class SerialManager:
     def _read_loop(self):
         temp_buffer = bytearray() # 用于累积所有原始串口数据
         last_activity_time = time.time() # 记录上次接收到数据的时间
-        idle_check_interval = 0.05  # 每 50ms 检查一次是否空闲
-        idle_threshold = 0.02       # 如果超过 20ms 没有新数据，则认为是空闲
+        idle_check_interval = 0.01  # 每 10ms 检查一次是否空闲
+        idle_threshold = 0.001       # 如果超过 1ms 没有新数据，则认为是空闲
         
         while self.is_running:
             if not self.is_open():
@@ -187,10 +187,6 @@ class SerialManager:
                 if data:
                     temp_buffer.extend(data)
                     last_activity_time = current_time
-                    # 如果读到了数据，立即进行一次处理检查（尤其适用于高频数据）
-                    # 可以优化：只在缓冲区足够大时才处理？
-                    # if len(temp_buffer) > 100: # 例如，缓冲区较大时强制处理一次
-                    #     self._process_temp_buffer(temp_buffer)
 
                 # 检查是否达到空闲时间阈值
                 if current_time - last_activity_time > idle_threshold:
