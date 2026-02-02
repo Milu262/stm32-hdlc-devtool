@@ -334,18 +334,18 @@ void LCD_Address_Set(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 
 void LCD_Fill(uint16_t xsta, uint16_t ysta, uint16_t xend, uint16_t yend, uint16_t color)
 {
-    // uint16_t i, j;
-    // LCD_Address_Set(xsta, ysta, xend - 1, yend - 1); // 设置显示区
 
-    LCD_Write_Repeat_Data(color,((yend-ysta)*(xend-xsta)));
+    // LCD_Write_Repeat_Data(color,((yend-ysta)*(xend-xsta)));
+    uint16_t i, j;
+    LCD_Address_Set(xsta, ysta, xend - 1, yend - 1); // 设置显示区
 
-    // for (i = ysta; i < yend; i++)
-    // {
-    //     for (j = xsta; j < xend; j++)
-    //     {
-    //         LCD_WR_DATA(color);
-    //     }
-    // }
+    for (i = ysta; i < yend; i++)
+    {
+        for (j = xsta; j < xend; j++)
+        {
+            LCD_WR_DATA(color);
+        }
+    }
 }
 
 uint8_t LCD_Pixel_Cycle(void)
@@ -377,3 +377,9 @@ uint8_t LCD_Pixel_Cycle(void)
     }
     return 0;
 }
+
+void LCD_DrawPoint(u16 x,u16 y,u16 color)
+{
+	LCD_Address_Set(x,y,x,y);//设置光标位置
+	LCD_WR_DATA(color);
+} 

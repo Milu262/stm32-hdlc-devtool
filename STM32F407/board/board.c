@@ -61,6 +61,7 @@ int hardware_init(void)
 
     // GPIO_SetBits(GPIOE, GPIO_Pin_7);
 
+    #ifdef USE_OV2640
     SPI_Cmd(LCD_SPI, DISABLE); // 设置前先关闭SPI
     // 设置选择 16 位数据帧格式
     SPI_DataSizeConfig(LCD_SPI, SPI_DataSize_16b);
@@ -71,6 +72,7 @@ int hardware_init(void)
     DMA_Cmd(DMA2_Stream1, ENABLE); // DMA2,Stream1
     DCMI_Cmd(ENABLE);              // DCMI启动
     DCMI_CaptureCmd(ENABLE);       // DCMI采集启动
+    #endif
     return 0;
 }
 

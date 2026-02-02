@@ -4,7 +4,7 @@
 // 定义最大数据长度
 #define MaxDataSize 256
 
-#define data_size 256 + 32	 // 数据长度
+#define hdlc_data_size 256 + 32	 // 数据长度
 #define Frame_header 0x55	 // 接收帧头
 #define SendFrameHeader 0xFA // 发送帧头
 
@@ -19,8 +19,8 @@ typedef struct
 	// unsigned int err;		   // 数据类型
 	unsigned int DataOverflow; // 数据溢出
 	unsigned int len;
-	uint8_t data[data_size];	 // 接收数据
-	uint8_t SendData[data_size]; // 发送数据
+	uint8_t data[hdlc_data_size];	 // 接收数据
+	uint8_t SendData[hdlc_data_size]; // 发送数据
 
 } usart_data_typed;
 

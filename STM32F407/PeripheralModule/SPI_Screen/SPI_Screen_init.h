@@ -86,4 +86,14 @@ uint8_t LCD_Pixel_Cycle(void);
 uint8_t LCD_Write_Data_FullDuplex(uint16_t *dat, uint16_t len);
 uint8_t LCD_Write_Data_1Line_Tx(uint16_t *dat, uint16_t len);
 void LCD_Write_Repeat_Data(uint16_t dat, uint32_t len);
+
+/**
+ * @brief 画一个点
+ *
+ * @param x 列地址
+ * @param y 行地址
+ * @param color 颜色值
+ * @return void 无返回值
+ */
+void LCD_DrawPoint(u16 x,u16 y,u16 color);
 #endif
