@@ -44,7 +44,7 @@
 
 #define COLOR_WHITE 0xFFFF
 
-#define USE_HORIZONTAL 1 // 设置屏幕方向，0或1为竖屏，2或3为横屏
+#define USE_HORIZONTAL 2 // 设置屏幕方向，0或1为竖屏，2或3为横屏
 
 #define LCD_SPI_CS_ON(x) GPIO_WriteBit(LCD_SPI_CS_GPIO_PORT, LCD_SPI_CS_PIN, x ? Bit_SET : Bit_RESET)
 
@@ -96,4 +96,6 @@ void LCD_Write_Repeat_Data(uint16_t dat, uint32_t len);
  * @return void 无返回值
  */
 void LCD_DrawPoint(u16 x,u16 y,u16 color);
+
+void LCD_WR_DATA(uint16_t dat);
 #endif

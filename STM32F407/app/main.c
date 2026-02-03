@@ -6,6 +6,9 @@
 #include "../bsp/uart/bsp_uart.h"
 #include "hdlc_core.h"
 #include "../bsp/Response/response.h"
+#include "../bsp/TIM/tim.h"
+#include "SPI_Screen_init.h"
+
 
 #include "lvgl.h"
 #include "lv_port_disp.h"
@@ -21,6 +24,8 @@ int main(void)
 
 	uint8_t error = 0;
 	error = hardware_init();
+
+
 	lv_init();//lvgl初始化
 	lv_port_disp_init();//注册lvgl的显示任务
 	lv_port_indev_init();//注册lvgl的输入任务
@@ -38,14 +43,31 @@ int main(void)
 	lv_label_set_text(label, "Hello World!");
 	lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
 	lv_obj_align_to(btn,label , LV_ALIGN_OUT_TOP_MID, 0, -20);
+
+	TIM_Mode_Config();
+
 	while (1)
 	{
-
+		delay_ms(5);//延时5ms
+		lv_timer_handler();//lvgl任务刷新函数
 		if (get_rx_status() != RX_STATE_RECEIVING)
 			continue;
 		enter_rx_IDLE();
 		RxCount = GetUsartRxCount();
 		uart_copy_receive_data(ReceiveData, RxCount);
 		hdlc_process_stream(ReceiveData, RxCount);
+	}
+}
+
+/**
+ * @brief  TIM6中断服务程序
+ * @details TIM6中断服务程序，用于LVGL心跳任务（1ms)
+ */
+void BASIC_TIM_IRQHandler(void)
+{
+	if(TIM_GetITStatus(TIM6, TIM_IT_Update) != RESET)
+	{
+		lv_tick_inc(1);
+		TIM_ClearITPendingBit(TIM6, TIM_IT_Update);
 	}
 }

@@ -108,7 +108,7 @@ static uint8_t LCD_WR_DATA8(uint8_t data)
   * @param       dat: 要写入的16位数据
   * @retval      无返回值
   */
-static void LCD_WR_DATA(uint16_t dat)
+void LCD_WR_DATA(uint16_t dat)
 {
     SPI_Cmd(LCD_SPI, DISABLE);
     // 设置选择 16 位数据帧格式
@@ -335,17 +335,22 @@ void LCD_Address_Set(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 void LCD_Fill(uint16_t xsta, uint16_t ysta, uint16_t xend, uint16_t yend, uint16_t color)
 {
 
-    // LCD_Write_Repeat_Data(color,((yend-ysta)*(xend-xsta)));
-    uint16_t i, j;
+    
+    // uint16_t i, j;
     LCD_Address_Set(xsta, ysta, xend - 1, yend - 1); // 设置显示区
+    LCD_Write_Repeat_Data(color,((yend-ysta)*(xend-xsta)));
+    // for (i = ysta; i < yend; i++)
+    // {
+    //     for (j = xsta; j < xend; j++)
+    //     {
+    //         LCD_WR_DATA(color);
+    //     }
+    // }
+}
 
-    for (i = ysta; i < yend; i++)
-    {
-        for (j = xsta; j < xend; j++)
-        {
-            LCD_WR_DATA(color);
-        }
-    }
+void lcd_dispflush(uint16_t xsta, uint16_t ysta, uint16_t xend, uint16_t yend,uint16_t *colors)
+{
+
 }
 
 uint8_t LCD_Pixel_Cycle(void)

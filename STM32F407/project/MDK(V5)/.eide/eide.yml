@@ -49,6 +49,10 @@ virtualFolder:
           files:
             - path: ../../bsp/NVIC/NVIC_Init.c
           folders: []
+        - name: TIM
+          files:
+            - path: ../../bsp/TIM/tim.c
+          folders: []
     - name: Board
       files:
         - path: ../../board/board.c
