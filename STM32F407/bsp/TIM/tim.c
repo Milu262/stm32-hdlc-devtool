@@ -13,8 +13,8 @@ void TIM_Mode_Config(void)
 	// 定时器时钟源 TIMxCLK = 2 * PCLK1
 	//  PCLK1 = HCLK / 4
 	//  => TIMxCLK=HCLK/2=SystemCoreClock/2=84MHz
-	//  设定定时器频率为 =TIMxCLK/(TIM_Prescaler+1)=10000Hz
-	TIM_TimeBaseStructure.TIM_Prescaler = 8400 - 1;
+	//  设定定时器频率为 =TIMxCLK/(TIM_Prescaler+1)=1MHz(1us)
+	TIM_TimeBaseStructure.TIM_Prescaler = 84 - 1;
 
 	//1ms
 	// 初始化定时器 TIMx

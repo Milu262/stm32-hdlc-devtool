@@ -98,4 +98,6 @@ void LCD_Write_Repeat_Data(uint16_t dat, uint32_t len);
 void LCD_DrawPoint(u16 x,u16 y,u16 color);
 
 void LCD_WR_DATA(uint16_t dat);
+
+void LCD_Write_Data_buffer(uint16_t *dat, uint32_t len);
 #endif

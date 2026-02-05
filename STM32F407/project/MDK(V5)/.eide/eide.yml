@@ -5,6 +5,7 @@ deviceName: null
 packDir: null
 srcDirs:
   - ../../LVGL/src
+  - ../../LVGL/my_gui
 virtualFolder:
   name: <virtual_root>
   files: []
@@ -159,6 +160,7 @@ targets:
         - USE_STDPERIPH_DRIVER
         - STM32F40_41xxx
         - USE_Keil
+        - LV_LVGL_H_INCLUDE_SIMPLE
       incList:
         - ../../app
         - ../../board
@@ -178,9 +180,14 @@ targets:
         - ../../PeripheralModule/SPI_Screen
         - ../../PeripheralModule/OV2640
         - ../../protocol
-        - ../../LVGL
-        - ../../LVGL/src
-        - ../../LVGL/examples/porting
+        - ../../lvgl
+        - ../../lvgl/src
+        - ../../lvgl/examples/porting
+        - ../../lvgl/my_gui
+        - ../../lvgl/my_gui/custom
+        - ../../lvgl/my_gui/guider_customer_fonts
+        - ../../lvgl/my_gui/guider_fonts
+        - ../../lvgl/my_gui/images
       libList:
         - ../../PeripheralModule
     excludeList:
@@ -278,7 +285,7 @@ targets:
             c99-mode: true
             gnu-extensions: true
             one-elf-section-per-function: true
-            optimization: level-0
+            optimization: level-1
             warnings: all-warnings
           global:
             output-debug-info: enable
@@ -287,7 +294,6 @@ targets:
             output-format: elf
             ro-base: "0x08000000"
             rw-base: "0x20000000"
-            xo-base: ""
         scatterFilePath: ""
         storageLayout:
           RAM:

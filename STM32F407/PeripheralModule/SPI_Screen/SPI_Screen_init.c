@@ -202,6 +202,30 @@ void LCD_Write_Repeat_Data(uint16_t dat, uint32_t len)
     SPI_Cmd(LCD_SPI, ENABLE);
 }
 
+void LCD_Write_Data_buffer(uint16_t *dat, uint32_t len)
+{
+    SPI_Cmd(LCD_SPI, DISABLE);
+    // 设置选择 16 位数据帧格式
+    SPI_DataSizeConfig(LCD_SPI, SPI_DataSize_16b);
+    SPI_Cmd(LCD_SPI, ENABLE);
+    LCD_SPI_CS_ON(0);
+    while (SPI_I2S_GetFlagStatus(LCD_SPI, SPI_I2S_FLAG_TXE) == RESET)
+        ;
+    while (len--)
+    {
+        SPI_I2S_SendData(LCD_SPI, *dat);
+        dat++;
+        while (SPI_I2S_GetFlagStatus(LCD_SPI, SPI_I2S_FLAG_TXE) == RESET)
+            ;
+    }
+    while (SET == SPI_I2S_GetFlagStatus(LCD_SPI, SPI_I2S_FLAG_BSY))
+        ;
+    LCD_SPI_CS_ON(1);
+    SPI_Cmd(LCD_SPI, DISABLE);
+    // 设置选择 8 位数据帧格式
+    SPI_DataSizeConfig(LCD_SPI, SPI_DataSize_8b);
+    SPI_Cmd(LCD_SPI, ENABLE);
+}
 
 void LCD_Screen_Init(void)
 {
