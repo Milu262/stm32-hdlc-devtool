@@ -11,7 +11,7 @@
  *********************/
 #include "lv_port_indev.h"
 #include "lvgl.h"
-
+#include "../../../PeripheralModule/KEY/key.h"
 /*********************
  *      DEFINES
  *********************/
@@ -55,6 +55,7 @@ lv_indev_t * indev_mouse;
 lv_indev_t * indev_keypad;
 lv_indev_t * indev_encoder;
 lv_indev_t * indev_button;
+// lv_group_t *g_keypad_group = NULL;
 
 static int32_t encoder_diff;
 static lv_indev_state_t encoder_state;
@@ -118,19 +119,24 @@ void lv_port_indev_init(void)
     //  * Keypad
     //  * -----------------*/
 
-    // /*Initialize your keypad or keyboard if you have*/
-    // keypad_init();
+    /*Initialize your keypad or keyboard if you have*/
+    keypad_init();
 
-    // /*Register a keypad input device*/
-    // lv_indev_drv_init(&indev_drv);
-    // indev_drv.type = LV_INDEV_TYPE_KEYPAD;
-    // indev_drv.read_cb = keypad_read;
-    // indev_keypad = lv_indev_drv_register(&indev_drv);
+    /*Register a keypad input device*/
+    lv_indev_drv_init(&indev_drv);
+    indev_drv.type = LV_INDEV_TYPE_KEYPAD;
+    indev_drv.read_cb = keypad_read;
+    indev_keypad = lv_indev_drv_register(&indev_drv);
 
-    // /*Later you should create group(s) with `lv_group_t * group = lv_group_create()`,
-    //  *add objects to the group with `lv_group_add_obj(group, obj)`
-    //  *and assign this input device to group to navigate in it:
-    //  *`lv_indev_set_group(indev_keypad, group);`*/
+    // lv_group_t * group = lv_group_create();
+    // lv_group_add_obj(group, indev_keypad);
+    // lv_indev_set_group(indev_keypad, group);
+
+
+    /*Later you should create group(s) with `lv_group_t * group = lv_group_create()`,
+     *add objects to the group with `lv_group_add_obj(group, obj)`
+     *and assign this input device to group to navigate in it:
+     *`lv_indev_set_group(indev_keypad, group);`*/
 
     // /*------------------
     //  * Encoder
@@ -154,21 +160,21 @@ void lv_port_indev_init(void)
      * Button
      * -----------------*/
 
-    /*Initialize your button if you have*/
-    button_init();
+    // /*Initialize your button if you have*/
+    // button_init();
 
-    /*Register a button input device*/
-    lv_indev_drv_init(&indev_drv);
-    indev_drv.type = LV_INDEV_TYPE_BUTTON;
-    indev_drv.read_cb = button_read;
-    indev_button = lv_indev_drv_register(&indev_drv);
+    // /*Register a button input device*/
+    // lv_indev_drv_init(&indev_drv);
+    // indev_drv.type = LV_INDEV_TYPE_BUTTON;
+    // indev_drv.read_cb = button_read;
+    // indev_button = lv_indev_drv_register(&indev_drv);
 
-    /*Assign buttons to points on the screen*/
-    static const lv_point_t btn_points[2] = {
-        {10, 10},   /*Button 0 -> x:10; y:10*/
-        {40, 100},  /*Button 1 -> x:40; y:100*/
-    };
-    lv_indev_set_button_points(indev_button, btn_points);
+    // /*Assign buttons to points on the screen*/
+    // static const lv_point_t btn_points[2] = {
+    //     {10, 10},   /*Button 0 -> x:10; y:10*/
+    //     {40, 100},  /*Button 1 -> x:40; y:100*/
+    // };
+    // lv_indev_set_button_points(indev_button, btn_points);
 }
 
 /**********************
@@ -272,6 +278,7 @@ static void mouse_get_xy(lv_coord_t * x, lv_coord_t * y)
 static void keypad_init(void)
 {
     /*Your code comes here*/
+    key_init();
 }
 
 /*Will be called by the library to read the mouse*/
@@ -320,7 +327,7 @@ static uint32_t keypad_get_key(void)
 {
     /*Your code comes here*/
 
-    return 0;
+    return key_polling_handle();
 }
 
 /*------------------

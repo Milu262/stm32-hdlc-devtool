@@ -14,7 +14,7 @@
 #include "OV2640_init.h"
 
 #include "Test_code.h"
-static __IO uint32_t g_system_tick = 0;
+// static __IO uint32_t g_system_tick = 0;
 
 /**
  * @brief 板级初始化,适用于LCKFB的STM32F407开发板
@@ -41,6 +41,7 @@ static void board_init(void)
 }
 
 #define usart_baud_rate 2000000
+
 int hardware_init(void)
 {
     board_init();                // 板级初始化
@@ -50,21 +51,21 @@ int hardware_init(void)
     User_I2C_Init();             // I2C初始化
     SPI_FLASH_BUS_Init();        // FLASH总线初始化
     // test_SPI_Flash();		 // 测试FLASH
-    SPI_Screen_BUS_Init(); // SPI屏幕总线初始化
+    SPI_Screen_BUS_Init();       // SPI屏幕总线初始化
 
     OV2640_Hardware_Init();
     LCD_Screen_Init();                                   // LCD屏幕初始化
     LCD_Address_Set(0, 0, LCD_WIDTH - 1, LCD_HIDTH - 1); // 设置显示区
-    if(USE_HORIZONTAL == 0 || USE_HORIZONTAL == 1)// 竖屏
-        LCD_Fill(0, 0, LCD_WIDTH, LCD_HIDTH, 0x0000);        
-    else 
+    if (USE_HORIZONTAL == 0 || USE_HORIZONTAL == 1)      // 竖屏
+        LCD_Fill(0, 0, LCD_WIDTH, LCD_HIDTH, 0x0000);
+    else
         LCD_Fill(0, 0, LCD_HIDTH, LCD_WIDTH, 0x0000);
 
-    // OV2640_Image_Config(); // OV2640图像配置
 
-    // GPIO_SetBits(GPIOE, GPIO_Pin_7);
+
 
 #ifdef USE_OV2640
+    OV2640_Image_Config(); // OV2640图像配置
     SPI_Cmd(LCD_SPI, DISABLE); // 设置前先关闭SPI
     // 设置选择 16 位数据帧格式
     SPI_DataSizeConfig(LCD_SPI, SPI_DataSize_16b);

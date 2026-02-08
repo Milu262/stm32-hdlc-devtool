@@ -122,6 +122,10 @@ virtualFolder:
           files:
             - path: ../../PeripheralModule/SPI_Screen/SPI_Screen_init.c
           folders: []
+        - name: KEY
+          files:
+            - path: ../../PeripheralModule/KEY/key.c
+          folders: []
     - name: protocol
       files:
         - path: ../../protocol/hdlc_core.c
@@ -135,7 +139,8 @@ virtualFolder:
             - path: ../../protocol/protocol_driver/uart_driver.c
           folders: []
     - name: LVGL_myGUI
-      files: []
+      files:
+        - path: ../../lvgl/lvgl_gui_main.c
       folders: []
     - name: LVGL_conf
       files:

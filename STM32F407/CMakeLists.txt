@@ -1,0 +1,746 @@
+cmake_minimum_required(VERSION 4.1)
+project(STM32F407 C)
+
+set(CMAKE_C_STANDARD 11)
+
+include_directories(board)
+include_directories(bsp/DMA)
+include_directories(bsp/I2C)
+include_directories(bsp/NVIC)
+include_directories(bsp/Response)
+include_directories(bsp/SPI)
+include_directories(bsp/TIM)
+include_directories(bsp/uart)
+include_directories(libraries/CMSIS/Device/ST/STM32F4xx/Include)
+include_directories(libraries/CMSIS/Include)
+include_directories(libraries/STM32F4xx_StdPeriph_Driver/inc)
+include_directories(lvgl)
+include_directories(lvgl/demos)
+include_directories(lvgl/demos/benchmark)
+include_directories(lvgl/demos/keypad_encoder)
+include_directories(lvgl/demos/music)
+include_directories(lvgl/demos/music/assets)
+include_directories(lvgl/demos/stress)
+include_directories(lvgl/demos/widgets)
+include_directories(lvgl/examples/porting)
+include_directories(lvgl/my_gui)
+include_directories(lvgl/my_gui/custom)
+include_directories(lvgl/my_gui/guider_customer_fonts)
+include_directories(lvgl/src)
+include_directories(lvgl/src/core)
+include_directories(lvgl/src/draw)
+include_directories(lvgl/src/draw/arm2d)
+include_directories(lvgl/src/draw/nxp/pxp)
+include_directories(lvgl/src/draw/nxp/vglite)
+include_directories(lvgl/src/draw/renesas)
+include_directories(lvgl/src/draw/sdl)
+include_directories(lvgl/src/draw/stm32_dma2d)
+include_directories(lvgl/src/draw/sw)
+include_directories(lvgl/src/draw/swm341_dma2d)
+include_directories(lvgl/src/extra)
+include_directories(lvgl/src/extra/layouts)
+include_directories(lvgl/src/extra/layouts/flex)
+include_directories(lvgl/src/extra/layouts/grid)
+include_directories(lvgl/src/extra/libs)
+include_directories(lvgl/src/extra/libs/bmp)
+include_directories(lvgl/src/extra/libs/ffmpeg)
+include_directories(lvgl/src/extra/libs/freetype)
+include_directories(lvgl/src/extra/libs/fsdrv)
+include_directories(lvgl/src/extra/libs/gif)
+include_directories(lvgl/src/extra/libs/png)
+include_directories(lvgl/src/extra/libs/qrcode)
+include_directories(lvgl/src/extra/libs/rlottie)
+include_directories(lvgl/src/extra/libs/sjpg)
+include_directories(lvgl/src/extra/libs/tiny_ttf)
+include_directories(lvgl/src/extra/others)
+include_directories(lvgl/src/extra/others/fragment)
+include_directories(lvgl/src/extra/others/gridnav)
+include_directories(lvgl/src/extra/others/ime)
+include_directories(lvgl/src/extra/others/imgfont)
+include_directories(lvgl/src/extra/others/monkey)
+include_directories(lvgl/src/extra/others/msg)
+include_directories(lvgl/src/extra/others/snapshot)
+include_directories(lvgl/src/extra/themes)
+include_directories(lvgl/src/extra/themes/basic)
+include_directories(lvgl/src/extra/themes/default)
+include_directories(lvgl/src/extra/themes/mono)
+include_directories(lvgl/src/extra/widgets)
+include_directories(lvgl/src/extra/widgets/animimg)
+include_directories(lvgl/src/extra/widgets/calendar)
+include_directories(lvgl/src/extra/widgets/chart)
+include_directories(lvgl/src/extra/widgets/colorwheel)
+include_directories(lvgl/src/extra/widgets/imgbtn)
+include_directories(lvgl/src/extra/widgets/keyboard)
+include_directories(lvgl/src/extra/widgets/led)
+include_directories(lvgl/src/extra/widgets/list)
+include_directories(lvgl/src/extra/widgets/menu)
+include_directories(lvgl/src/extra/widgets/meter)
+include_directories(lvgl/src/extra/widgets/msgbox)
+include_directories(lvgl/src/extra/widgets/span)
+include_directories(lvgl/src/extra/widgets/spinbox)
+include_directories(lvgl/src/extra/widgets/spinner)
+include_directories(lvgl/src/extra/widgets/tabview)
+include_directories(lvgl/src/extra/widgets/tileview)
+include_directories(lvgl/src/extra/widgets/win)
+include_directories(lvgl/src/font)
+include_directories(lvgl/src/hal)
+include_directories(lvgl/src/misc)
+include_directories(lvgl/src/widgets)
+include_directories(module)
+include_directories(PeripheralModule/KEY)
+include_directories(PeripheralModule/OV2640)
+include_directories(PeripheralModule/SPI_Screen)
+include_directories(project)
+include_directories("project/MDK(V5)")
+include_directories("project/MDK(V5)/.cmsis")
+include_directories("project/MDK(V5)/.cmsis/include")
+include_directories(protocol)
+include_directories(protocol/protocol_driver)
+
+add_executable(STM32F407
+        app/main.c
+        board/board.c
+        board/board.h
+        bsp/DMA/DMA_Init.c
+        bsp/DMA/DMA_Init.h
+        bsp/I2C/i2c_handle.c
+        bsp/I2C/i2c_handle.h
+        bsp/I2C/i2c_init.c
+        bsp/I2C/i2c_init.h
+        bsp/NVIC/NVIC_Init.c
+        bsp/NVIC/NVIC_Init.h
+        bsp/Response/response.c
+        bsp/Response/response.h
+        bsp/SPI/SPI_Control.c
+        bsp/SPI/SPI_Control.h
+        bsp/SPI/spi_init.c
+        bsp/SPI/spi_init.h
+        bsp/SPI/Test_code.c
+        bsp/SPI/Test_code.h
+        bsp/TIM/tim.c
+        bsp/TIM/tim.h
+        bsp/uart/bsp_uart.c
+        bsp/uart/bsp_uart.h
+        libraries/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
+        libraries/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
+        libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c
+        libraries/CMSIS/Include/arm_common_tables.h
+        libraries/CMSIS/Include/arm_const_structs.h
+        libraries/CMSIS/Include/arm_math.h
+        libraries/CMSIS/Include/core_cm0.h
+        libraries/CMSIS/Include/core_cm0plus.h
+        libraries/CMSIS/Include/core_cm3.h
+        libraries/CMSIS/Include/core_cm4.h
+        libraries/CMSIS/Include/core_cm7.h
+        libraries/CMSIS/Include/core_cmFunc.h
+        libraries/CMSIS/Include/core_cmInstr.h
+        libraries/CMSIS/Include/core_cmSimd.h
+        libraries/CMSIS/Include/core_sc000.h
+        libraries/CMSIS/Include/core_sc300.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/misc.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_adc.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_can.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_cec.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_crc.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_cryp.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_dac.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_dbgmcu.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_dcmi.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_dfsdm.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_dma.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_dma2d.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_dsi.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_exti.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_flash.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_flash_ramfunc.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_fmc.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_fmpi2c.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_fsmc.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_gpio.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_hash.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_i2c.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_iwdg.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_lptim.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_ltdc.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_pwr.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_qspi.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_rcc.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_rng.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_rtc.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_sai.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_sdio.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_spdifrx.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_spi.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_syscfg.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_tim.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_usart.h
+        libraries/STM32F4xx_StdPeriph_Driver/inc/stm32f4xx_wwdg.h
+        libraries/STM32F4xx_StdPeriph_Driver/src/misc.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_adc.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_can.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_cec.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_crc.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_cryp.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_cryp_aes.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_cryp_des.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_cryp_tdes.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dac.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dbgmcu.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dcmi.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dfsdm.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dma.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dma2d.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dsi.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_exti.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_flash.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_flash_ramfunc.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_fmc.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_fmpi2c.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_fsmc.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_gpio.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_hash.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_hash_md5.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_hash_sha1.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_i2c.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_iwdg.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_lptim.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_ltdc.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_pwr.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_qspi.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rcc.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rng.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rtc.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_sai.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_sdio.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_spdifrx.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_spi.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_syscfg.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_tim.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_usart.c
+        libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_wwdg.c
+        lvgl/demos/benchmark/assets/img_benchmark_cogwheel_alpha16.c
+        lvgl/demos/benchmark/assets/img_benchmark_cogwheel_argb.c
+        lvgl/demos/benchmark/assets/img_benchmark_cogwheel_chroma_keyed.c
+        lvgl/demos/benchmark/assets/img_benchmark_cogwheel_indexed16.c
+        lvgl/demos/benchmark/assets/img_benchmark_cogwheel_rgb.c
+        lvgl/demos/benchmark/assets/img_benchmark_cogwheel_rgb565a8.c
+        lvgl/demos/benchmark/assets/lv_font_bechmark_montserrat_12_compr_az.c.c
+        lvgl/demos/benchmark/assets/lv_font_bechmark_montserrat_16_compr_az.c.c
+        lvgl/demos/benchmark/assets/lv_font_bechmark_montserrat_28_compr_az.c.c
+        lvgl/demos/benchmark/lv_demo_benchmark.c
+        lvgl/demos/benchmark/lv_demo_benchmark.h
+        lvgl/demos/keypad_encoder/lv_demo_keypad_encoder.c
+        lvgl/demos/keypad_encoder/lv_demo_keypad_encoder.h
+        lvgl/demos/music/assets/img_lv_demo_music_btn_corner_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_list_pause.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_list_pause_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_list_play.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_list_play_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_loop.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_loop_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_next.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_next_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_pause.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_pause_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_play.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_play_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_prev.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_prev_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_rnd.c
+        lvgl/demos/music/assets/img_lv_demo_music_btn_rnd_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_corner_left.c
+        lvgl/demos/music/assets/img_lv_demo_music_corner_left_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_corner_right.c
+        lvgl/demos/music/assets/img_lv_demo_music_corner_right_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_cover_1.c
+        lvgl/demos/music/assets/img_lv_demo_music_cover_1_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_cover_2.c
+        lvgl/demos/music/assets/img_lv_demo_music_cover_2_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_cover_3.c
+        lvgl/demos/music/assets/img_lv_demo_music_cover_3_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_icon_1.c
+        lvgl/demos/music/assets/img_lv_demo_music_icon_1_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_icon_2.c
+        lvgl/demos/music/assets/img_lv_demo_music_icon_2_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_icon_3.c
+        lvgl/demos/music/assets/img_lv_demo_music_icon_3_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_icon_4.c
+        lvgl/demos/music/assets/img_lv_demo_music_icon_4_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_list_border.c
+        lvgl/demos/music/assets/img_lv_demo_music_list_border_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_logo.c
+        lvgl/demos/music/assets/img_lv_demo_music_slider_knob.c
+        lvgl/demos/music/assets/img_lv_demo_music_slider_knob_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_wave_bottom.c
+        lvgl/demos/music/assets/img_lv_demo_music_wave_bottom_large.c
+        lvgl/demos/music/assets/img_lv_demo_music_wave_top.c
+        lvgl/demos/music/assets/img_lv_demo_music_wave_top_large.c
+        lvgl/demos/music/assets/spectrum_1.h
+        lvgl/demos/music/assets/spectrum_2.h
+        lvgl/demos/music/assets/spectrum_3.h
+        lvgl/demos/music/lv_demo_music.c
+        lvgl/demos/music/lv_demo_music.h
+        lvgl/demos/music/lv_demo_music_list.c
+        lvgl/demos/music/lv_demo_music_list.h
+        lvgl/demos/music/lv_demo_music_main.c
+        lvgl/demos/music/lv_demo_music_main.h
+        lvgl/demos/stress/lv_demo_stress.c
+        lvgl/demos/stress/lv_demo_stress.h
+        lvgl/demos/widgets/assets/img_clothes.c
+        lvgl/demos/widgets/assets/img_demo_widgets_avatar.c
+        lvgl/demos/widgets/assets/img_lvgl_logo.c
+        lvgl/demos/widgets/lv_demo_widgets.c
+        lvgl/demos/widgets/lv_demo_widgets.h
+        lvgl/demos/lv_demos.h
+        lvgl/examples/porting/lv_port_disp.c
+        lvgl/examples/porting/lv_port_disp.h
+        lvgl/examples/porting/lv_port_fs.c
+        lvgl/examples/porting/lv_port_fs.h
+        lvgl/examples/porting/lv_port_indev.c
+        lvgl/examples/porting/lv_port_indev.h
+        lvgl/my_gui/custom/custom.c
+        lvgl/my_gui/custom/custom.h
+        lvgl/my_gui/custom/lv_conf_ext.h
+        lvgl/my_gui/guider_customer_fonts/guider_customer_fonts.h
+        lvgl/my_gui/guider_fonts/lv_font_montserratMedium_16.c
+        lvgl/my_gui/images/screen_animimg_11_00.c
+        lvgl/my_gui/images/screen_animimg_11_01.c
+        lvgl/my_gui/images/screen_animimg_11_02.c
+        lvgl/my_gui/images/screen_animimg_11_03.c
+        lvgl/my_gui/images/screen_animimg_11_04.c
+        lvgl/my_gui/images/screen_animimg_11_05.c
+        lvgl/my_gui/images/screen_animimg_11_06.c
+        lvgl/my_gui/images/screen_animimg_11_07.c
+        lvgl/my_gui/images/screen_animimg_11_08.c
+        lvgl/my_gui/images/screen_animimg_11_09.c
+        lvgl/my_gui/images/screen_animimg_11_10.c
+        lvgl/my_gui/images/screen_animimg_11_11.c
+        lvgl/my_gui/images/screen_animimg_11_12.c
+        lvgl/my_gui/images/screen_animimg_11_13.c
+        lvgl/my_gui/images/screen_animimg_11_14.c
+        lvgl/my_gui/images/screen_animimg_11_15.c
+        lvgl/my_gui/images/screen_animimg_11_16.c
+        lvgl/my_gui/images/screen_animimg_11_17.c
+        lvgl/my_gui/images/screen_animimg_11_18.c
+        lvgl/my_gui/events_init.c
+        lvgl/my_gui/events_init.h
+        lvgl/my_gui/gui_guider.c
+        lvgl/my_gui/gui_guider.h
+        lvgl/my_gui/setup_scr_screen.c
+        lvgl/my_gui/widgets_init.c
+        lvgl/my_gui/widgets_init.h
+        lvgl/src/core/lv_disp.c
+        lvgl/src/core/lv_disp.h
+        lvgl/src/core/lv_event.c
+        lvgl/src/core/lv_event.h
+        lvgl/src/core/lv_group.c
+        lvgl/src/core/lv_group.h
+        lvgl/src/core/lv_indev.c
+        lvgl/src/core/lv_indev.h
+        lvgl/src/core/lv_indev_scroll.c
+        lvgl/src/core/lv_indev_scroll.h
+        lvgl/src/core/lv_obj.c
+        lvgl/src/core/lv_obj.h
+        lvgl/src/core/lv_obj_class.c
+        lvgl/src/core/lv_obj_class.h
+        lvgl/src/core/lv_obj_draw.c
+        lvgl/src/core/lv_obj_draw.h
+        lvgl/src/core/lv_obj_pos.c
+        lvgl/src/core/lv_obj_pos.h
+        lvgl/src/core/lv_obj_scroll.c
+        lvgl/src/core/lv_obj_scroll.h
+        lvgl/src/core/lv_obj_style.c
+        lvgl/src/core/lv_obj_style.h
+        lvgl/src/core/lv_obj_style_gen.c
+        lvgl/src/core/lv_obj_style_gen.h
+        lvgl/src/core/lv_obj_tree.c
+        lvgl/src/core/lv_obj_tree.h
+        lvgl/src/core/lv_refr.c
+        lvgl/src/core/lv_refr.h
+        lvgl/src/core/lv_theme.c
+        lvgl/src/core/lv_theme.h
+        lvgl/src/draw/arm2d/lv_gpu_arm2d.c
+        lvgl/src/draw/arm2d/lv_gpu_arm2d.h
+        lvgl/src/draw/nxp/pxp/lv_draw_pxp.c
+        lvgl/src/draw/nxp/pxp/lv_draw_pxp.h
+        lvgl/src/draw/nxp/pxp/lv_draw_pxp_blend.c
+        lvgl/src/draw/nxp/pxp/lv_draw_pxp_blend.h
+        lvgl/src/draw/nxp/pxp/lv_gpu_nxp_pxp.c
+        lvgl/src/draw/nxp/pxp/lv_gpu_nxp_pxp.h
+        lvgl/src/draw/nxp/pxp/lv_gpu_nxp_pxp_osa.c
+        lvgl/src/draw/nxp/pxp/lv_gpu_nxp_pxp_osa.h
+        lvgl/src/draw/nxp/vglite/lv_draw_vglite.c
+        lvgl/src/draw/nxp/vglite/lv_draw_vglite.h
+        lvgl/src/draw/nxp/vglite/lv_draw_vglite_arc.c
+        lvgl/src/draw/nxp/vglite/lv_draw_vglite_arc.h
+        lvgl/src/draw/nxp/vglite/lv_draw_vglite_blend.c
+        lvgl/src/draw/nxp/vglite/lv_draw_vglite_blend.h
+        lvgl/src/draw/nxp/vglite/lv_draw_vglite_line.c
+        lvgl/src/draw/nxp/vglite/lv_draw_vglite_line.h
+        lvgl/src/draw/nxp/vglite/lv_draw_vglite_rect.c
+        lvgl/src/draw/nxp/vglite/lv_draw_vglite_rect.h
+        lvgl/src/draw/nxp/vglite/lv_vglite_buf.c
+        lvgl/src/draw/nxp/vglite/lv_vglite_buf.h
+        lvgl/src/draw/nxp/vglite/lv_vglite_utils.c
+        lvgl/src/draw/nxp/vglite/lv_vglite_utils.h
+        lvgl/src/draw/renesas/lv_gpu_d2_draw_label.c
+        lvgl/src/draw/renesas/lv_gpu_d2_ra6m3.c
+        lvgl/src/draw/renesas/lv_gpu_d2_ra6m3.h
+        lvgl/src/draw/sdl/lv_draw_sdl.c
+        lvgl/src/draw/sdl/lv_draw_sdl.h
+        lvgl/src/draw/sdl/lv_draw_sdl_arc.c
+        lvgl/src/draw/sdl/lv_draw_sdl_bg.c
+        lvgl/src/draw/sdl/lv_draw_sdl_composite.c
+        lvgl/src/draw/sdl/lv_draw_sdl_composite.h
+        lvgl/src/draw/sdl/lv_draw_sdl_img.c
+        lvgl/src/draw/sdl/lv_draw_sdl_img.h
+        lvgl/src/draw/sdl/lv_draw_sdl_label.c
+        lvgl/src/draw/sdl/lv_draw_sdl_layer.c
+        lvgl/src/draw/sdl/lv_draw_sdl_layer.h
+        lvgl/src/draw/sdl/lv_draw_sdl_line.c
+        lvgl/src/draw/sdl/lv_draw_sdl_mask.c
+        lvgl/src/draw/sdl/lv_draw_sdl_mask.h
+        lvgl/src/draw/sdl/lv_draw_sdl_polygon.c
+        lvgl/src/draw/sdl/lv_draw_sdl_priv.h
+        lvgl/src/draw/sdl/lv_draw_sdl_rect.c
+        lvgl/src/draw/sdl/lv_draw_sdl_rect.h
+        lvgl/src/draw/sdl/lv_draw_sdl_stack_blur.c
+        lvgl/src/draw/sdl/lv_draw_sdl_stack_blur.h
+        lvgl/src/draw/sdl/lv_draw_sdl_texture_cache.c
+        lvgl/src/draw/sdl/lv_draw_sdl_texture_cache.h
+        lvgl/src/draw/sdl/lv_draw_sdl_utils.c
+        lvgl/src/draw/sdl/lv_draw_sdl_utils.h
+        lvgl/src/draw/stm32_dma2d/lv_gpu_stm32_dma2d.c
+        lvgl/src/draw/stm32_dma2d/lv_gpu_stm32_dma2d.h
+        lvgl/src/draw/sw/lv_draw_sw.c
+        lvgl/src/draw/sw/lv_draw_sw.h
+        lvgl/src/draw/sw/lv_draw_sw_arc.c
+        lvgl/src/draw/sw/lv_draw_sw_blend.c
+        lvgl/src/draw/sw/lv_draw_sw_blend.h
+        lvgl/src/draw/sw/lv_draw_sw_dither.c
+        lvgl/src/draw/sw/lv_draw_sw_dither.h
+        lvgl/src/draw/sw/lv_draw_sw_gradient.c
+        lvgl/src/draw/sw/lv_draw_sw_gradient.h
+        lvgl/src/draw/sw/lv_draw_sw_img.c
+        lvgl/src/draw/sw/lv_draw_sw_layer.c
+        lvgl/src/draw/sw/lv_draw_sw_letter.c
+        lvgl/src/draw/sw/lv_draw_sw_line.c
+        lvgl/src/draw/sw/lv_draw_sw_polygon.c
+        lvgl/src/draw/sw/lv_draw_sw_rect.c
+        lvgl/src/draw/sw/lv_draw_sw_transform.c
+        lvgl/src/draw/swm341_dma2d/lv_gpu_swm341_dma2d.c
+        lvgl/src/draw/swm341_dma2d/lv_gpu_swm341_dma2d.h
+        lvgl/src/draw/lv_draw.c
+        lvgl/src/draw/lv_draw.h
+        lvgl/src/draw/lv_draw_arc.c
+        lvgl/src/draw/lv_draw_arc.h
+        lvgl/src/draw/lv_draw_img.c
+        lvgl/src/draw/lv_draw_img.h
+        lvgl/src/draw/lv_draw_label.c
+        lvgl/src/draw/lv_draw_label.h
+        lvgl/src/draw/lv_draw_layer.c
+        lvgl/src/draw/lv_draw_layer.h
+        lvgl/src/draw/lv_draw_line.c
+        lvgl/src/draw/lv_draw_line.h
+        lvgl/src/draw/lv_draw_mask.c
+        lvgl/src/draw/lv_draw_mask.h
+        lvgl/src/draw/lv_draw_rect.c
+        lvgl/src/draw/lv_draw_rect.h
+        lvgl/src/draw/lv_draw_transform.c
+        lvgl/src/draw/lv_draw_transform.h
+        lvgl/src/draw/lv_draw_triangle.c
+        lvgl/src/draw/lv_draw_triangle.h
+        lvgl/src/draw/lv_img_buf.c
+        lvgl/src/draw/lv_img_buf.h
+        lvgl/src/draw/lv_img_cache.c
+        lvgl/src/draw/lv_img_cache.h
+        lvgl/src/draw/lv_img_decoder.c
+        lvgl/src/draw/lv_img_decoder.h
+        lvgl/src/extra/layouts/flex/lv_flex.c
+        lvgl/src/extra/layouts/flex/lv_flex.h
+        lvgl/src/extra/layouts/grid/lv_grid.c
+        lvgl/src/extra/layouts/grid/lv_grid.h
+        lvgl/src/extra/layouts/lv_layouts.h
+        lvgl/src/extra/libs/bmp/lv_bmp.c
+        lvgl/src/extra/libs/bmp/lv_bmp.h
+        lvgl/src/extra/libs/ffmpeg/lv_ffmpeg.c
+        lvgl/src/extra/libs/ffmpeg/lv_ffmpeg.h
+        lvgl/src/extra/libs/freetype/lv_freetype.c
+        lvgl/src/extra/libs/freetype/lv_freetype.h
+        lvgl/src/extra/libs/fsdrv/lv_fs_fatfs.c
+        lvgl/src/extra/libs/fsdrv/lv_fs_littlefs.c
+        lvgl/src/extra/libs/fsdrv/lv_fs_posix.c
+        lvgl/src/extra/libs/fsdrv/lv_fs_stdio.c
+        lvgl/src/extra/libs/fsdrv/lv_fs_win32.c
+        lvgl/src/extra/libs/fsdrv/lv_fsdrv.h
+        lvgl/src/extra/libs/gif/gifdec.c
+        lvgl/src/extra/libs/gif/gifdec.h
+        lvgl/src/extra/libs/gif/lv_gif.c
+        lvgl/src/extra/libs/gif/lv_gif.h
+        lvgl/src/extra/libs/png/lodepng.c
+        lvgl/src/extra/libs/png/lodepng.h
+        lvgl/src/extra/libs/png/lv_png.c
+        lvgl/src/extra/libs/png/lv_png.h
+        lvgl/src/extra/libs/qrcode/lv_qrcode.c
+        lvgl/src/extra/libs/qrcode/lv_qrcode.h
+        lvgl/src/extra/libs/qrcode/qrcodegen.c
+        lvgl/src/extra/libs/qrcode/qrcodegen.h
+        lvgl/src/extra/libs/rlottie/lv_rlottie.c
+        lvgl/src/extra/libs/rlottie/lv_rlottie.h
+        lvgl/src/extra/libs/sjpg/lv_sjpg.c
+        lvgl/src/extra/libs/sjpg/lv_sjpg.h
+        lvgl/src/extra/libs/sjpg/tjpgd.c
+        lvgl/src/extra/libs/sjpg/tjpgd.h
+        lvgl/src/extra/libs/sjpg/tjpgdcnf.h
+        lvgl/src/extra/libs/tiny_ttf/lv_tiny_ttf.c
+        lvgl/src/extra/libs/tiny_ttf/lv_tiny_ttf.h
+        lvgl/src/extra/libs/tiny_ttf/stb_rect_pack.h
+        lvgl/src/extra/libs/tiny_ttf/stb_truetype_htcw.h
+        lvgl/src/extra/libs/lv_libs.h
+        lvgl/src/extra/others/fragment/lv_fragment.c
+        lvgl/src/extra/others/fragment/lv_fragment.h
+        lvgl/src/extra/others/fragment/lv_fragment_manager.c
+        lvgl/src/extra/others/gridnav/lv_gridnav.c
+        lvgl/src/extra/others/gridnav/lv_gridnav.h
+        lvgl/src/extra/others/ime/lv_ime_pinyin.c
+        lvgl/src/extra/others/ime/lv_ime_pinyin.h
+        lvgl/src/extra/others/imgfont/lv_imgfont.c
+        lvgl/src/extra/others/imgfont/lv_imgfont.h
+        lvgl/src/extra/others/monkey/lv_monkey.c
+        lvgl/src/extra/others/monkey/lv_monkey.h
+        lvgl/src/extra/others/msg/lv_msg.c
+        lvgl/src/extra/others/msg/lv_msg.h
+        lvgl/src/extra/others/snapshot/lv_snapshot.c
+        lvgl/src/extra/others/snapshot/lv_snapshot.h
+        lvgl/src/extra/others/lv_others.h
+        lvgl/src/extra/themes/basic/lv_theme_basic.c
+        lvgl/src/extra/themes/basic/lv_theme_basic.h
+        lvgl/src/extra/themes/default/lv_theme_default.c
+        lvgl/src/extra/themes/default/lv_theme_default.h
+        lvgl/src/extra/themes/mono/lv_theme_mono.c
+        lvgl/src/extra/themes/mono/lv_theme_mono.h
+        lvgl/src/extra/themes/lv_themes.h
+        lvgl/src/extra/widgets/animimg/lv_animimg.c
+        lvgl/src/extra/widgets/animimg/lv_animimg.h
+        lvgl/src/extra/widgets/calendar/lv_calendar.c
+        lvgl/src/extra/widgets/calendar/lv_calendar.h
+        lvgl/src/extra/widgets/calendar/lv_calendar_header_arrow.c
+        lvgl/src/extra/widgets/calendar/lv_calendar_header_arrow.h
+        lvgl/src/extra/widgets/calendar/lv_calendar_header_dropdown.c
+        lvgl/src/extra/widgets/calendar/lv_calendar_header_dropdown.h
+        lvgl/src/extra/widgets/chart/lv_chart.c
+        lvgl/src/extra/widgets/chart/lv_chart.h
+        lvgl/src/extra/widgets/colorwheel/lv_colorwheel.c
+        lvgl/src/extra/widgets/colorwheel/lv_colorwheel.h
+        lvgl/src/extra/widgets/imgbtn/lv_imgbtn.c
+        lvgl/src/extra/widgets/imgbtn/lv_imgbtn.h
+        lvgl/src/extra/widgets/keyboard/lv_keyboard.c
+        lvgl/src/extra/widgets/keyboard/lv_keyboard.h
+        lvgl/src/extra/widgets/led/lv_led.c
+        lvgl/src/extra/widgets/led/lv_led.h
+        lvgl/src/extra/widgets/list/lv_list.c
+        lvgl/src/extra/widgets/list/lv_list.h
+        lvgl/src/extra/widgets/menu/lv_menu.c
+        lvgl/src/extra/widgets/menu/lv_menu.h
+        lvgl/src/extra/widgets/meter/lv_meter.c
+        lvgl/src/extra/widgets/meter/lv_meter.h
+        lvgl/src/extra/widgets/msgbox/lv_msgbox.c
+        lvgl/src/extra/widgets/msgbox/lv_msgbox.h
+        lvgl/src/extra/widgets/span/lv_span.c
+        lvgl/src/extra/widgets/span/lv_span.h
+        lvgl/src/extra/widgets/spinbox/lv_spinbox.c
+        lvgl/src/extra/widgets/spinbox/lv_spinbox.h
+        lvgl/src/extra/widgets/spinner/lv_spinner.c
+        lvgl/src/extra/widgets/spinner/lv_spinner.h
+        lvgl/src/extra/widgets/tabview/lv_tabview.c
+        lvgl/src/extra/widgets/tabview/lv_tabview.h
+        lvgl/src/extra/widgets/tileview/lv_tileview.c
+        lvgl/src/extra/widgets/tileview/lv_tileview.h
+        lvgl/src/extra/widgets/win/lv_win.c
+        lvgl/src/extra/widgets/win/lv_win.h
+        lvgl/src/extra/widgets/lv_widgets.h
+        lvgl/src/extra/lv_extra.c
+        lvgl/src/extra/lv_extra.h
+        lvgl/src/font/lv_font.c
+        lvgl/src/font/lv_font.h
+        lvgl/src/font/lv_font_dejavu_16_persian_hebrew.c
+        lvgl/src/font/lv_font_fmt_txt.c
+        lvgl/src/font/lv_font_fmt_txt.h
+        lvgl/src/font/lv_font_loader.c
+        lvgl/src/font/lv_font_loader.h
+        lvgl/src/font/lv_font_montserrat_10.c
+        lvgl/src/font/lv_font_montserrat_12.c
+        lvgl/src/font/lv_font_montserrat_12_subpx.c
+        lvgl/src/font/lv_font_montserrat_14.c
+        lvgl/src/font/lv_font_montserrat_16.c
+        lvgl/src/font/lv_font_montserrat_18.c
+        lvgl/src/font/lv_font_montserrat_20.c
+        lvgl/src/font/lv_font_montserrat_22.c
+        lvgl/src/font/lv_font_montserrat_24.c
+        lvgl/src/font/lv_font_montserrat_26.c
+        lvgl/src/font/lv_font_montserrat_28.c
+        lvgl/src/font/lv_font_montserrat_28_compressed.c
+        lvgl/src/font/lv_font_montserrat_30.c
+        lvgl/src/font/lv_font_montserrat_32.c
+        lvgl/src/font/lv_font_montserrat_34.c
+        lvgl/src/font/lv_font_montserrat_36.c
+        lvgl/src/font/lv_font_montserrat_38.c
+        lvgl/src/font/lv_font_montserrat_40.c
+        lvgl/src/font/lv_font_montserrat_42.c
+        lvgl/src/font/lv_font_montserrat_44.c
+        lvgl/src/font/lv_font_montserrat_46.c
+        lvgl/src/font/lv_font_montserrat_48.c
+        lvgl/src/font/lv_font_montserrat_8.c
+        lvgl/src/font/lv_font_simsun_16_cjk.c
+        lvgl/src/font/lv_font_unscii_16.c
+        lvgl/src/font/lv_font_unscii_8.c
+        lvgl/src/font/lv_symbol_def.h
+        lvgl/src/hal/lv_hal.h
+        lvgl/src/hal/lv_hal_disp.c
+        lvgl/src/hal/lv_hal_disp.h
+        lvgl/src/hal/lv_hal_indev.c
+        lvgl/src/hal/lv_hal_indev.h
+        lvgl/src/hal/lv_hal_tick.c
+        lvgl/src/hal/lv_hal_tick.h
+        lvgl/src/misc/lv_anim.c
+        lvgl/src/misc/lv_anim.h
+        lvgl/src/misc/lv_anim_timeline.c
+        lvgl/src/misc/lv_anim_timeline.h
+        lvgl/src/misc/lv_area.c
+        lvgl/src/misc/lv_area.h
+        lvgl/src/misc/lv_assert.h
+        lvgl/src/misc/lv_async.c
+        lvgl/src/misc/lv_async.h
+        lvgl/src/misc/lv_bidi.c
+        lvgl/src/misc/lv_bidi.h
+        lvgl/src/misc/lv_color.c
+        lvgl/src/misc/lv_color.h
+        lvgl/src/misc/lv_fs.c
+        lvgl/src/misc/lv_fs.h
+        lvgl/src/misc/lv_gc.c
+        lvgl/src/misc/lv_gc.h
+        lvgl/src/misc/lv_ll.c
+        lvgl/src/misc/lv_ll.h
+        lvgl/src/misc/lv_log.c
+        lvgl/src/misc/lv_log.h
+        lvgl/src/misc/lv_lru.c
+        lvgl/src/misc/lv_lru.h
+        lvgl/src/misc/lv_math.c
+        lvgl/src/misc/lv_math.h
+        lvgl/src/misc/lv_mem.c
+        lvgl/src/misc/lv_mem.h
+        lvgl/src/misc/lv_printf.c
+        lvgl/src/misc/lv_printf.h
+        lvgl/src/misc/lv_style.c
+        lvgl/src/misc/lv_style.h
+        lvgl/src/misc/lv_style_gen.c
+        lvgl/src/misc/lv_style_gen.h
+        lvgl/src/misc/lv_templ.c
+        lvgl/src/misc/lv_templ.h
+        lvgl/src/misc/lv_timer.c
+        lvgl/src/misc/lv_timer.h
+        lvgl/src/misc/lv_tlsf.c
+        lvgl/src/misc/lv_tlsf.h
+        lvgl/src/misc/lv_txt.c
+        lvgl/src/misc/lv_txt.h
+        lvgl/src/misc/lv_txt_ap.c
+        lvgl/src/misc/lv_txt_ap.h
+        lvgl/src/misc/lv_types.h
+        lvgl/src/misc/lv_utils.c
+        lvgl/src/misc/lv_utils.h
+        lvgl/src/widgets/lv_arc.c
+        lvgl/src/widgets/lv_arc.h
+        lvgl/src/widgets/lv_bar.c
+        lvgl/src/widgets/lv_bar.h
+        lvgl/src/widgets/lv_btn.c
+        lvgl/src/widgets/lv_btn.h
+        lvgl/src/widgets/lv_btnmatrix.c
+        lvgl/src/widgets/lv_btnmatrix.h
+        lvgl/src/widgets/lv_canvas.c
+        lvgl/src/widgets/lv_canvas.h
+        lvgl/src/widgets/lv_checkbox.c
+        lvgl/src/widgets/lv_checkbox.h
+        lvgl/src/widgets/lv_dropdown.c
+        lvgl/src/widgets/lv_dropdown.h
+        lvgl/src/widgets/lv_img.c
+        lvgl/src/widgets/lv_img.h
+        lvgl/src/widgets/lv_label.c
+        lvgl/src/widgets/lv_label.h
+        lvgl/src/widgets/lv_line.c
+        lvgl/src/widgets/lv_line.h
+        lvgl/src/widgets/lv_objx_templ.c
+        lvgl/src/widgets/lv_objx_templ.h
+        lvgl/src/widgets/lv_roller.c
+        lvgl/src/widgets/lv_roller.h
+        lvgl/src/widgets/lv_slider.c
+        lvgl/src/widgets/lv_slider.h
+        lvgl/src/widgets/lv_switch.c
+        lvgl/src/widgets/lv_switch.h
+        lvgl/src/widgets/lv_table.c
+        lvgl/src/widgets/lv_table.h
+        lvgl/src/widgets/lv_textarea.c
+        lvgl/src/widgets/lv_textarea.h
+        lvgl/src/lv_api_map.h
+        lvgl/src/lv_conf_internal.h
+        lvgl/src/lv_conf_kconfig.h
+        lvgl/src/lvgl.h
+        lvgl/lv_conf.h
+        lvgl/lvgl.h
+        lvgl/lvgl_gui_main.c
+        lvgl/lvgl_gui_main.h
+        module/stm32f4xx_conf.h
+        module/stm32f4xx_it.c
+        module/stm32f4xx_it.h
+        PeripheralModule/KEY/key.c
+        PeripheralModule/KEY/key.h
+        PeripheralModule/OV2640/OV2640_DCMI_Init.c
+        PeripheralModule/OV2640/OV2640_DCMI_Init.h
+        PeripheralModule/OV2640/OV2640_DMA_Init.c
+        PeripheralModule/OV2640/OV2640_DMA_Init.h
+        PeripheralModule/OV2640/OV2640_init.c
+        PeripheralModule/OV2640/OV2640_init.h
+        PeripheralModule/OV2640/OV2640_reg.h
+        PeripheralModule/SPI_Screen/SPI_Screen_init.c
+        PeripheralModule/SPI_Screen/SPI_Screen_init.h
+        "project/MDK(V5)/.cmsis/include/cachel1_armv7.h"
+        "project/MDK(V5)/.cmsis/include/cmsis_armcc.h"
+        "project/MDK(V5)/.cmsis/include/cmsis_armclang.h"
+        "project/MDK(V5)/.cmsis/include/cmsis_armclang_ltm.h"
+        "project/MDK(V5)/.cmsis/include/cmsis_compiler.h"
+        "project/MDK(V5)/.cmsis/include/cmsis_gcc.h"
+        "project/MDK(V5)/.cmsis/include/cmsis_iccarm.h"
+        "project/MDK(V5)/.cmsis/include/cmsis_version.h"
+        "project/MDK(V5)/.cmsis/include/core_armv81mml.h"
+        "project/MDK(V5)/.cmsis/include/core_armv8mbl.h"
+        "project/MDK(V5)/.cmsis/include/core_armv8mml.h"
+        "project/MDK(V5)/.cmsis/include/core_cm0.h"
+        "project/MDK(V5)/.cmsis/include/core_cm0plus.h"
+        "project/MDK(V5)/.cmsis/include/core_cm1.h"
+        "project/MDK(V5)/.cmsis/include/core_cm23.h"
+        "project/MDK(V5)/.cmsis/include/core_cm3.h"
+        "project/MDK(V5)/.cmsis/include/core_cm33.h"
+        "project/MDK(V5)/.cmsis/include/core_cm35p.h"
+        "project/MDK(V5)/.cmsis/include/core_cm4.h"
+        "project/MDK(V5)/.cmsis/include/core_cm55.h"
+        "project/MDK(V5)/.cmsis/include/core_cm7.h"
+        "project/MDK(V5)/.cmsis/include/core_cm85.h"
+        "project/MDK(V5)/.cmsis/include/core_sc000.h"
+        "project/MDK(V5)/.cmsis/include/core_sc300.h"
+        "project/MDK(V5)/.cmsis/include/core_starmc1.h"
+        "project/MDK(V5)/.cmsis/include/mpu_armv7.h"
+        "project/MDK(V5)/.cmsis/include/mpu_armv8.h"
+        "project/MDK(V5)/.cmsis/include/pac_armv81.h"
+        "project/MDK(V5)/.cmsis/include/pmu_armv8.h"
+        "project/MDK(V5)/.cmsis/include/tz_context.h"
+        protocol/protocol_driver/i2c_driver.c
+        protocol/protocol_driver/i2c_driver.h
+        protocol/protocol_driver/spi_driver.c
+        protocol/protocol_driver/spi_driver.h
+        protocol/protocol_driver/uart_driver.c
+        protocol/protocol_driver/uart_driver.h
+        protocol/cmd_handlers.c
+        protocol/cmd_handlers.h
+        protocol/crc16.c
+        protocol/crc16.h
+        protocol/hdlc_core.c
+        protocol/hdlc_core.h)
